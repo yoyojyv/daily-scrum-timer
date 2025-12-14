@@ -18,21 +18,21 @@ Daily Scrum Timer MVP 구현을 위한 단계별 실행 계획입니다.
 ## Sprint 1: 프로젝트 초기 설정
 
 ### 1.1 개발 환경 구성
-- [ ] Next.js 15 프로젝트 생성 (App Router, TypeScript)
-- [ ] Tailwind CSS 설정
-- [ ] shadcn/ui 초기화 및 기본 컴포넌트 설치
-- [ ] ESLint, Prettier 설정
-- [ ] 프로젝트 구조 설계 (폴더 구조)
+- [x] Next.js 15 프로젝트 생성 (App Router, TypeScript)
+- [x] Tailwind CSS 설정
+- [x] shadcn/ui 초기화 및 기본 컴포넌트 설치
+- [x] ESLint, Prettier 설정
+- [x] 프로젝트 구조 설계 (폴더 구조)
 
 ### 1.2 상태 관리 설정
-- [ ] Zustand 설치 및 설정
-- [ ] persist 미들웨어 설정 (localStorage)
-- [ ] 기본 store 구조 생성
+- [x] Zustand 설치 및 설정
+- [x] persist 미들웨어 설정 (localStorage)
+- [x] 기본 store 구조 생성
 
 ### 1.3 기본 레이아웃
-- [ ] 메인 레이아웃 컴포넌트 생성
-- [ ] 헤더 컴포넌트 (로고, 다크모드 토글, 설정 버튼)
-- [ ] 반응형 컨테이너 설정
+- [x] 메인 레이아웃 컴포넌트 생성
+- [x] 헤더 컴포넌트 (로고, 다크모드 토글, 설정 버튼)
+- [x] 반응형 컨테이너 설정
 
 **완료 기준:** 프로젝트가 로컬에서 정상 실행되고, 기본 레이아웃이 표시됨
 
@@ -224,8 +224,8 @@ Daily Scrum Timer MVP 구현을 위한 단계별 실행 계획입니다.
 
 | Sprint | 상태 | 완료일 |
 |--------|------|--------|
-| Sprint 1 | ⬜ 대기 | - |
-| Sprint 2 | ⬜ 대기 | - |
+| Sprint 1 | ✅ 완료 | 2025-12-14 |
+| Sprint 2 | 🔄 진행중 | - |
 | Sprint 3 | ⬜ 대기 | - |
 | Sprint 4 | ⬜ 대기 | - |
 | Sprint 5 | ⬜ 대기 | - |
