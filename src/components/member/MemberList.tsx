@@ -9,16 +9,16 @@ export function MemberList() {
   const { members, shuffledOrder, currentMemberIndex, meetingStatus } =
     useScrumStore();
 
-  // Get the display order based on meeting status
+  // Get the display order based on shuffled order
   const getDisplayMembers = () => {
-    if (meetingStatus === 'idle' || shuffledOrder.length === 0) {
+    if (shuffledOrder.length === 0) {
       return members;
     }
 
-    // During meeting, show in shuffled order
+    // Show in shuffled order (excluding vacation members)
     const orderedMembers = shuffledOrder
       .map((id) => members.find((m) => m.id === id))
-      .filter((m): m is NonNullable<typeof m> => m !== undefined);
+      .filter((m): m is NonNullable<typeof m> => m !== undefined && !m.isOnVacation);
 
     // Add vacation members at the end
     const vacationMembers = members.filter((m) => m.isOnVacation);
@@ -26,17 +26,26 @@ export function MemberList() {
   };
 
   const displayMembers = getDisplayMembers();
+  const isMeetingActive = meetingStatus === 'running' || meetingStatus === 'paused';
   const currentMemberId =
-    shuffledOrder.length > 0 ? shuffledOrder[currentMemberIndex] : null;
+    isMeetingActive && shuffledOrder.length > 0 ? shuffledOrder[currentMemberIndex] : null;
   const nextMemberId =
-    shuffledOrder.length > currentMemberIndex + 1
+    isMeetingActive && shuffledOrder.length > currentMemberIndex + 1
       ? shuffledOrder[currentMemberIndex + 1]
       : null;
+
+  const activeCount = members.filter((m) => !m.isOnVacation).length;
+  const totalCount = members.length;
 
   return (
     <Card>
       <CardHeader className="pb-3">
-        <CardTitle className="text-lg">팀원 목록</CardTitle>
+        <CardTitle className="text-lg flex items-center justify-between">
+          <span>미팅 참여자</span>
+          <span className="text-sm font-normal text-muted-foreground">
+            {activeCount}명 참여 / {totalCount}명
+          </span>
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
         <MemberInput />

@@ -36,6 +36,12 @@ export function MemberItem({ member, isCurrent, isNext }: MemberItemProps) {
     return '대기';
   };
 
+  const formatElapsedTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
   return (
     <div
       className={cn(
@@ -60,12 +66,17 @@ export function MemberItem({ member, isCurrent, isNext }: MemberItemProps) {
         <span className="text-xs text-muted-foreground">
           ({getStatusText()})
         </span>
+        {member.elapsedTime > 0 && !member.isOnVacation && (
+          <span className="text-xs font-mono text-muted-foreground">
+            {formatElapsedTime(member.elapsedTime)}
+          </span>
+        )}
       </div>
-      <div className="flex items-center gap-1">
+      <div className="flex items-center">
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8"
+          className="h-7 w-7"
           onClick={() => toggleVacation(member.id)}
           disabled={meetingStatus === 'running'}
           title={member.isOnVacation ? '휴가 해제' : '휴가 설정'}
@@ -80,7 +91,7 @@ export function MemberItem({ member, isCurrent, isNext }: MemberItemProps) {
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 text-destructive hover:text-destructive"
+          className="h-7 w-7 text-destructive hover:text-destructive"
           onClick={() => removeMember(member.id)}
           disabled={meetingStatus === 'running'}
           title="삭제"

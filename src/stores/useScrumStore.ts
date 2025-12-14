@@ -24,6 +24,7 @@ interface ScrumTimerState {
   extendTime: (seconds: number) => void;
   nextMember: () => void;
   startMeeting: () => void;
+  resetMeeting: () => void;
   tick: () => void;
 
   // Settings
@@ -66,6 +67,7 @@ export const useScrumStore = create<ScrumTimerState>()(
           name: name.trim(),
           isOnVacation: false,
           isCompleted: false,
+          elapsedTime: 0,
         };
         set((state) => ({
           members: [...state.members, newMember],
@@ -116,8 +118,8 @@ export const useScrumStore = create<ScrumTimerState>()(
       },
 
       resetTimer: () => {
-        const { defaultTime } = get();
-        set({ timeLeft: defaultTime, totalTime: defaultTime, isRunning: false });
+        const { defaultTime, isRunning } = get();
+        set({ timeLeft: defaultTime, totalTime: defaultTime, isRunning });
       },
 
       extendTime: (seconds: number) => {
@@ -145,11 +147,14 @@ export const useScrumStore = create<ScrumTimerState>()(
             isRunning: false,
           });
         } else {
+          // Auto-start next person's timer
           set({
             members: updatedMembers,
             currentMemberIndex: nextIndex,
             timeLeft: defaultTime,
             totalTime: defaultTime,
+            isRunning: true,
+            meetingStatus: 'running',
           });
         }
       },
@@ -171,7 +176,20 @@ export const useScrumStore = create<ScrumTimerState>()(
           isRunning: true,
           timeLeft: defaultTime,
           totalTime: defaultTime,
-          members: members.map((m) => ({ ...m, isCompleted: false })),
+          members: members.map((m) => ({ ...m, isCompleted: false, elapsedTime: 0 })),
+        });
+      },
+
+      resetMeeting: () => {
+        const { members, defaultTime } = get();
+        set({
+          shuffledOrder: [],
+          currentMemberIndex: 0,
+          meetingStatus: 'idle',
+          isRunning: false,
+          timeLeft: defaultTime,
+          totalTime: defaultTime,
+          members: members.map((m) => ({ ...m, isCompleted: false, elapsedTime: 0 })),
         });
       },
 
@@ -180,7 +198,19 @@ export const useScrumStore = create<ScrumTimerState>()(
           if (state.timeLeft <= 0) {
             return { isRunning: false };
           }
-          return { timeLeft: state.timeLeft - 1 };
+
+          // Increment current member's elapsed time
+          const currentMemberId = state.shuffledOrder[state.currentMemberIndex];
+          const updatedMembers = state.members.map((m) =>
+            m.id === currentMemberId
+              ? { ...m, elapsedTime: m.elapsedTime + 1 }
+              : m
+          );
+
+          return {
+            timeLeft: state.timeLeft - 1,
+            members: updatedMembers,
+          };
         });
       },
 
@@ -225,6 +255,21 @@ export const useScrumStore = create<ScrumTimerState>()(
         warningEnabled: state.warningEnabled,
         theme: state.theme,
       }),
+      onRehydrateStorage: () => (state, error) => {
+        if (!error && state) {
+          // Sync timer with defaultTime after rehydration
+          // Also ensure all members have elapsedTime field (for backward compatibility)
+          const membersWithElapsedTime = state.members.map((m) => ({
+            ...m,
+            elapsedTime: m.elapsedTime ?? 0,
+          }));
+          useScrumStore.setState({
+            timeLeft: state.defaultTime,
+            totalTime: state.defaultTime,
+            members: membersWithElapsedTime,
+          });
+        }
+      },
     }
   )
 );

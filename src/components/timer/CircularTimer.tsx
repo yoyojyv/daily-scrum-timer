@@ -2,13 +2,32 @@
 
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
+import { Play, Pause, Plus, RotateCcw, SkipForward } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { useScrumStore } from '@/stores/useScrumStore';
 
 export function CircularTimer() {
-  const { timeLeft, totalTime } = useScrumStore();
+  const {
+    timeLeft,
+    totalTime,
+    isRunning,
+    meetingStatus,
+    extendUnit,
+    defaultTime,
+    startTimer,
+    pauseTimer,
+    extendTime,
+    resetTimer,
+    nextMember,
+  } = useScrumStore();
 
-  const progress = totalTime > 0 ? timeLeft / totalTime : 1;
+  // Use defaultTime when idle to ensure correct display after hydration
+  const displayTime = meetingStatus === 'idle' ? defaultTime : timeLeft;
+  const displayTotal = meetingStatus === 'idle' ? defaultTime : totalTime;
+
+  const progress = displayTotal > 0 ? displayTime / displayTotal : 1;
   const percentage = progress * 100;
+  const isRed = percentage <= 20;
 
   // Calculate color based on remaining time percentage
   const getColor = useMemo(() => {
@@ -22,8 +41,8 @@ export function CircularTimer() {
   }, [percentage]);
 
   // SVG circle parameters
-  const size = 240;
-  const strokeWidth = 12;
+  const size = 300;
+  const strokeWidth = 14;
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
   const strokeDashoffset = circumference - progress * circumference;
@@ -34,6 +53,8 @@ export function CircularTimer() {
     const secs = seconds % 60;
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
+
+  const canControl = meetingStatus !== 'idle' && meetingStatus !== 'completed';
 
   return (
     <div className="relative flex items-center justify-center">
@@ -68,20 +89,69 @@ export function CircularTimer() {
         />
       </svg>
 
-      {/* Time display */}
+      {/* Time display and controls */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <motion.span
-          key={timeLeft}
-          initial={{ scale: 1.1, opacity: 0.8 }}
-          animate={{ scale: 1, opacity: 1 }}
-          className="text-5xl font-bold tabular-nums"
+          className="text-6xl font-bold tabular-nums"
           style={{ color: getColor }}
+          animate={isRed && isRunning ? { opacity: [1, 0.4, 1] } : { opacity: 1 }}
+          transition={isRed && isRunning ? { duration: 0.6, repeat: Infinity } : {}}
         >
-          {formatTime(timeLeft)}
+          {formatTime(displayTime)}
         </motion.span>
-        <span className="text-sm text-muted-foreground mt-1">
-          / {formatTime(totalTime)}
-        </span>
+
+        {/* Play/Pause and Next buttons */}
+        <div className="flex items-center gap-1 mt-2">
+          <Button
+            variant="ghost"
+            size="lg"
+            onClick={isRunning ? pauseTimer : startTimer}
+            disabled={!canControl}
+          >
+            {isRunning ? (
+              <>
+                <Pause className="h-5 w-5 mr-1" />
+                정지
+              </>
+            ) : (
+              <>
+                <Play className="h-5 w-5 mr-1" />
+                시작
+              </>
+            )}
+          </Button>
+          <Button
+            variant="ghost"
+            size="lg"
+            onClick={nextMember}
+            disabled={!canControl}
+          >
+            <SkipForward className="h-5 w-5 mr-1" />
+            다음
+          </Button>
+        </div>
+
+        {/* Extend and Reset buttons */}
+        <div className="flex items-center gap-1 mt-1">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => extendTime(extendUnit)}
+            disabled={!canControl}
+          >
+            <Plus className="h-4 w-4 mr-1" />
+            {extendUnit}초
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={resetTimer}
+            disabled={!canControl}
+          >
+            <RotateCcw className="h-4 w-4 mr-1" />
+            리셋
+          </Button>
+        </div>
       </div>
     </div>
   );

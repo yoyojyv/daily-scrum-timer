@@ -3,6 +3,7 @@ export interface Member {
   name: string;
   isOnVacation: boolean;
   isCompleted: boolean;
+  elapsedTime: number;
 }
 
 export type MeetingStatus = 'idle' | 'running' | 'paused' | 'completed';
