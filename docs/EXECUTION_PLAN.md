@@ -41,14 +41,14 @@ Daily Scrum Timer MVP 구현을 위한 단계별 실행 계획입니다.
 ## Sprint 2: 다크모드 및 테마 시스템
 
 ### 2.1 테마 구현
-- [ ] next-themes 또는 자체 테마 시스템 구현
-- [ ] 다크/라이트 모드 CSS 변수 정의
-- [ ] Tailwind dark mode 설정
+- [x] next-themes 또는 자체 테마 시스템 구현
+- [x] 다크/라이트 모드 CSS 변수 정의
+- [x] Tailwind dark mode 설정
 
 ### 2.2 테마 토글
-- [ ] 헤더에 다크모드 토글 버튼 추가
-- [ ] 테마 상태 Zustand store에 저장
-- [ ] localStorage에 테마 설정 persist
+- [x] 헤더에 다크모드 토글 버튼 추가
+- [x] 테마 상태 Zustand store에 저장
+- [x] localStorage에 테마 설정 persist
 
 **완료 기준:** 다크모드 토글이 동작하고, 새로고침 후에도 테마 유지
 
@@ -57,23 +57,23 @@ Daily Scrum Timer MVP 구현을 위한 단계별 실행 계획입니다.
 ## Sprint 3: 팀원 관리 기능
 
 ### 3.1 팀원 데이터 모델
-- [ ] Member 타입 정의 (id, name, isOnVacation, isCompleted)
-- [ ] Zustand store에 members 상태 추가
-- [ ] CRUD 액션 구현 (addMember, removeMember, toggleVacation)
+- [x] Member 타입 정의 (id, name, isOnVacation, isCompleted)
+- [x] Zustand store에 members 상태 추가
+- [x] CRUD 액션 구현 (addMember, removeMember, toggleVacation)
 
 ### 3.2 팀원 목록 UI
-- [ ] MemberList 컴포넌트 생성
-- [ ] MemberItem 컴포넌트 (이름, 휴가 토글, 삭제 버튼)
-- [ ] 상태별 아이콘 표시 (완료 ✅, 진행중 🔴, 대기 ⏳, 휴가 🏖️)
+- [x] MemberList 컴포넌트 생성
+- [x] MemberItem 컴포넌트 (이름, 휴가 토글, 삭제 버튼)
+- [x] 상태별 아이콘 표시 (완료 ✅, 진행중 🔴, 대기 ⏳, 휴가 🏖️)
 
 ### 3.3 팀원 추가 기능
-- [ ] 이름 입력 필드 (목록 상단에 배치)
-- [ ] 추가 버튼 및 Enter 키 지원
-- [ ] 빈 이름 방지 validation
+- [x] 이름 입력 필드 (목록 상단에 배치)
+- [x] 추가 버튼 및 Enter 키 지원
+- [x] 빈 이름 방지 validation
 
 ### 3.4 데이터 영속성
-- [ ] 팀원 목록 localStorage 저장
-- [ ] 새로고침 시 데이터 복원 확인
+- [x] 팀원 목록 localStorage 저장
+- [x] 새로고침 시 데이터 복원 확인
 
 **완료 기준:** 팀원 추가/삭제/휴가 설정이 동작하고, 새로고침 후에도 데이터 유지
 
@@ -225,8 +225,8 @@ Daily Scrum Timer MVP 구현을 위한 단계별 실행 계획입니다.
 | Sprint | 상태 | 완료일 |
 |--------|------|--------|
 | Sprint 1 | ✅ 완료 | 2025-12-14 |
-| Sprint 2 | 🔄 진행중 | - |
-| Sprint 3 | ⬜ 대기 | - |
+| Sprint 2 | ✅ 완료 | 2025-12-14 |
+| Sprint 3 | ✅ 완료 | 2025-12-14 |
 | Sprint 4 | ⬜ 대기 | - |
 | Sprint 5 | ⬜ 대기 | - |
 | Sprint 6 | ⬜ 대기 | - |
