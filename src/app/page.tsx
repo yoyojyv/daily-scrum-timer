@@ -6,13 +6,16 @@ import { MemberList } from '@/components/member/MemberList';
 import { CircularTimer } from '@/components/timer/CircularTimer';
 import { TimerControls } from '@/components/timer/TimerControls';
 import { SpeakerDisplay } from '@/components/timer/SpeakerDisplay';
+import { SettingsModal } from '@/components/settings/SettingsModal';
 import { useTimer } from '@/hooks/useTimer';
+import { useTimerAlerts } from '@/hooks/useTimerAlerts';
 
 export default function Home() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
-  // Initialize timer hook
+  // Initialize hooks
   useTimer();
+  useTimerAlerts();
 
   return (
     <div className="min-h-screen bg-background">
@@ -32,6 +35,9 @@ export default function Home() {
         {/* Member List */}
         <MemberList />
       </main>
+
+      {/* Settings Modal */}
+      <SettingsModal open={isSettingsOpen} onOpenChange={setIsSettingsOpen} />
     </div>
   );
 }
