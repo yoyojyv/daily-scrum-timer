@@ -42,12 +42,12 @@ export default function Home() {
         <SpeakerDisplay />
 
         {/* Timer with Scrum Guide */}
-        <div className="flex justify-center items-center gap-6 shrink-0">
+        <div className="flex justify-center items-center gap-8 shrink-0">
           {/* Scrum Guide - Left */}
-          <div className="flex flex-col gap-2 text-sm text-muted-foreground w-28">
-            <div>📋 어제 한 일</div>
-            <div>🎯 오늘 할 일</div>
-            <div>🚧 장애 요소</div>
+          <div className="flex flex-col gap-2 text-sm text-muted-foreground w-28 text-right">
+            <div>어제 한 일 📋</div>
+            <div>오늘 할 일 🎯</div>
+            <div>장애 요소 🚧</div>
           </div>
 
           <CircularTimer />
