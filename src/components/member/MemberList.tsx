@@ -38,8 +38,8 @@ export function MemberList() {
   const totalCount = members.length;
 
   return (
-    <Card>
-      <CardHeader className="pb-3">
+    <Card className="h-full flex flex-col">
+      <CardHeader className="pb-3 shrink-0">
         <CardTitle className="text-lg flex items-center justify-between">
           <span>미팅 참여자</span>
           <span className="text-sm font-normal text-muted-foreground">
@@ -47,9 +47,11 @@ export function MemberList() {
           </span>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3">
-        <MemberInput />
-        <div className="space-y-2">
+      <CardContent className="flex-1 flex flex-col gap-3 overflow-hidden">
+        <div className="shrink-0">
+          <MemberInput />
+        </div>
+        <div className="flex-1 overflow-y-auto space-y-2">
           {displayMembers.length === 0 ? (
             <p className="text-center text-muted-foreground py-4">
               팀원을 추가해주세요
